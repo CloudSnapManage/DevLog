@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-zinc-950 text-zinc-100;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors;
+}
+
+/* Typography Overrides for Markdown */
+.prose {
+  @apply text-zinc-300 leading-relaxed;
+}
+
+.prose h1 {
+  @apply text-2xl font-bold text-zinc-100 mt-8 mb-4;
+}
+
+.prose h2 {
+  @apply text-xl font-bold text-zinc-100 mt-6 mb-3;
+}
+
+.prose h3 {
+  @apply text-lg font-bold text-zinc-100 mt-4 mb-2;
+}
+
+.prose p {
+  @apply mb-4;
+}
+
+.prose ul {
+  @apply list-disc list-inside mb-4 space-y-1;
+}
+
+.prose li {
+  @apply text-zinc-300;
+}
+
+.prose code {
+  @apply bg-zinc-900 px-1.5 py-0.5 rounded text-blue-400 font-mono text-sm;
+}
+
+.prose pre {
+  @apply bg-zinc-900 p-4 rounded-xl border border-zinc-800 mb-4 overflow-x-auto;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-zinc-800 pl-4 italic text-zinc-500;
+}

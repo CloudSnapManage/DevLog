@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "JournalEntry": {
+      "title": "JournalEntry",
+      "description": "A developer's daily journal entry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the entry." },
+        "userId": { "type": "string", "description": "The UID of the user who owns this entry." },
+        "date": { "type": "string", "format": "date-time", "description": "ISO 8601 timestamp of the entry date." },
+        "content": { "type": "string", "description": "The markdown content of the journal entry." },
+        "tags": { 
+          "type": "array", 
+          "items": { "type": "string" },
+          "description": "List of tags associated with the entry."
+        },
+        "mood": { "type": "string", "description": "The developer's mood during the entry." },
+        "imageUrl": { "type": "string", "description": "URL of an uploaded image." },
+        "createdAt": { "type": "number", "description": "Unix timestamp of creation." },
+        "updatedAt": { "type": "number", "description": "Unix timestamp of last update." }
+      },
+      "required": ["id", "userId", "date", "content", "createdAt", "updatedAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] }
+      },
+      "required": ["uid", "email"]
+    }
+  },
+  "firestore": {
+    "/entries/{entryId}": {
+      "schema": "JournalEntry",
+      "description": "Collection of developer journal entries."
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private user profiles."
+    }
+  }
+}
