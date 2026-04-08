@@ -23,16 +23,20 @@
     },
     "UserProfile": {
       "title": "UserProfile",
-      "description": "Private user information.",
+      "description": "Private user information and customization.",
       "type": "object",
       "properties": {
         "uid": { "type": "string" },
         "email": { "type": "string", "format": "email" },
         "displayName": { "type": "string" },
+        "gender": { "type": "string" },
+        "age": { "type": "number" },
+        "devNickname": { "type": "string" },
         "photoURL": { "type": "string" },
-        "role": { "type": "string", "enum": ["user", "admin"] }
+        "onboardingComplete": { "type": "boolean" },
+        "createdAt": { "type": "number" }
       },
-      "required": ["uid", "email"]
+      "required": ["uid", "email", "onboardingComplete"]
     }
   },
   "firestore": {

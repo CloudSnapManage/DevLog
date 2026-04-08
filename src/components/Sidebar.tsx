@@ -1,7 +1,7 @@
 import React from 'react';
 import { Search, Plus, Calendar, Hash, Settings, LogOut, BarChart3, Book, Image as ImageIcon } from 'lucide-react';
 import { Button } from './UI';
-import { JournalEntry } from '../types';
+import { JournalEntry, UserProfile } from '../types';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -12,17 +12,20 @@ interface SidebarProps {
   onNewEntry: () => void;
   view: 'logs' | 'stats' | 'gallery';
   onViewChange: (view: 'logs' | 'stats' | 'gallery') => void;
+  profile: UserProfile | null;
 }
 
-export const Sidebar = ({ entries, activeEntryId, onSelectEntry, onNewEntry, view, onViewChange }: SidebarProps) => {
+export const Sidebar = ({ entries, activeEntryId, onSelectEntry, onNewEntry, view, onViewChange, profile }: SidebarProps) => {
   return (
-    <div className="w-80 h-screen border-r border-zinc-800 bg-zinc-950 flex flex-col">
-      <div className="p-6">
-        <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-xl">D</span>
+    <div className="w-80 h-full border-r border-zinc-800 bg-zinc-950 flex flex-col shadow-2xl lg:shadow-none">
+      <div className="p-6 flex-1 flex flex-col min-h-0">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-xl">D</span>
+            </div>
+            <h1 className="text-xl font-bold text-zinc-100 tracking-tight">DevLog</h1>
           </div>
-          <h1 className="text-xl font-bold text-zinc-100 tracking-tight">DevLog</h1>
         </div>
 
         <div className="flex bg-zinc-900 rounded-lg p-1 border border-zinc-800 mb-6">
@@ -90,23 +93,23 @@ export const Sidebar = ({ entries, activeEntryId, onSelectEntry, onNewEntry, vie
       <div className="mt-auto p-6 border-t border-zinc-800">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {auth.currentUser?.photoURL ? (
+            {profile?.photoURL ? (
               <img 
-                src={auth.currentUser.photoURL} 
+                src={profile.photoURL} 
                 alt="Profile" 
-                className="w-8 h-8 rounded-full border border-zinc-700"
+                className="w-8 h-8 rounded-full border border-zinc-700 object-cover"
                 referrerPolicy="no-referrer"
               />
             ) : (
               <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center">
                 <span className="text-[10px] text-zinc-500 font-bold">
-                  {auth.currentUser?.displayName?.charAt(0) || 'D'}
+                  {profile?.displayName?.charAt(0) || 'D'}
                 </span>
               </div>
             )}
             <div className="text-sm">
               <p className="font-medium text-zinc-200 truncate max-w-[120px]">
-                {auth.currentUser?.displayName || 'Developer'}
+                {profile?.devNickname ? `@${profile.devNickname}` : profile?.displayName || 'Developer'}
               </p>
               <p className="text-xs text-zinc-500">Free Plan</p>
             </div>

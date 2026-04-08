@@ -22,13 +22,13 @@ export const Stats = ({ entries }: StatsProps) => {
     .slice(0, 5);
 
   return (
-    <div className="flex-1 p-8 max-w-4xl mx-auto w-full overflow-auto">
+    <div className="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full overflow-auto">
       <div className="flex items-center gap-3 mb-8">
         <BarChart3 className="text-blue-500" size={24} />
-        <h2 className="text-2xl font-bold">Your Progress</h2>
+        <h2 className="text-xl md:text-2xl font-bold">Your Progress</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-12">
         <Card className="p-6 flex flex-col items-center text-center">
           <Calendar className="text-zinc-500 mb-2" size={20} />
           <span className="text-3xl font-bold mb-1">{totalLogs}</span>

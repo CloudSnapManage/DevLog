@@ -99,14 +99,14 @@ export const Editor = ({ entry, onSave, onDelete, isSaving }: EditorProps) => {
   };
 
   return (
-    <div className="flex-1 h-screen flex flex-col bg-zinc-950 overflow-hidden">
-      <header className="h-16 border-bottom border-zinc-800 px-8 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium text-zinc-400">
-            {new Date(entry.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+    <div className="flex-1 h-full flex flex-col bg-zinc-950 overflow-hidden">
+      <header className="min-h-16 border-b border-zinc-800 px-4 md:px-8 flex flex-col md:flex-row items-center justify-between py-4 md:py-0 gap-4 shrink-0">
+        <div className="flex items-center gap-4 w-full md:w-auto overflow-x-auto no-scrollbar">
+          <span className="text-xs md:text-sm font-medium text-zinc-400 whitespace-nowrap">
+            {new Date(entry.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
           </span>
-          <div className="h-4 w-px bg-zinc-800" />
-          <div className="flex gap-2">
+          <div className="h-4 w-px bg-zinc-800 shrink-0" />
+          <div className="flex gap-2 shrink-0">
             {entry.tags.map(tag => (
               <span key={tag} className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
                 #{tag}
@@ -115,69 +115,75 @@ export const Editor = ({ entry, onSave, onDelete, isSaving }: EditorProps) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            onChange={handleImageUpload} 
-            className="hidden" 
-            accept="image/*"
-          />
-          <Button 
-            variant="ghost" 
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isUploading || !!entry.imageUrl}
-            className="h-9 px-3 text-zinc-400 hover:text-zinc-100 relative overflow-hidden"
-          >
-            {isUploading ? (
-              <>
-                <div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-blue-500 transition-all duration-300" 
-                  style={{ width: `${uploadProgress}%` }}
-                />
-                <Loader2 size={16} className="animate-spin" />
-                <span className="text-[10px] ml-1">{Math.round(uploadProgress)}%</span>
-              </>
-            ) : (
-              <ImageIcon size={16} />
-            )}
-            {entry.imageUrl ? 'Image Attached' : isUploading ? 'Uploading...' : 'Attach Image'}
-          </Button>
+        <div className="flex items-center gap-2 md:gap-3 w-full md:w-auto justify-between md:justify-end">
+          <div className="flex items-center gap-2">
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              onChange={handleImageUpload} 
+              className="hidden" 
+              accept="image/*"
+            />
+            <Button 
+              variant="ghost" 
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading || !!entry.imageUrl}
+              className="h-8 md:h-9 px-2 md:px-3 text-zinc-400 hover:text-zinc-100 relative overflow-hidden"
+            >
+              {isUploading ? (
+                <>
+                  <div 
+                    className="absolute bottom-0 left-0 h-0.5 bg-blue-500 transition-all duration-300" 
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                  <Loader2 size={14} className="animate-spin" />
+                </>
+              ) : (
+                <ImageIcon size={14} />
+              )}
+              <span className="hidden sm:inline ml-2 text-xs">
+                {entry.imageUrl ? 'Attached' : isUploading ? 'Uploading...' : 'Image'}
+              </span>
+            </Button>
 
-          <div className="flex bg-zinc-900 rounded-lg p-1 border border-zinc-800">
-            <button 
-              onClick={() => setIsPreview(false)}
-              className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${!isPreview ? 'bg-zinc-800 text-zinc-100 shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
-            >
-              Write
-            </button>
-            <button 
-              onClick={() => setIsPreview(true)}
-              className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${isPreview ? 'bg-zinc-800 text-zinc-100 shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
-            >
-              Preview
-            </button>
+            <div className="flex bg-zinc-900 rounded-lg p-1 border border-zinc-800">
+              <button 
+                onClick={() => setIsPreview(false)}
+                className={`px-2 md:px-3 py-1 text-[10px] md:text-xs font-medium rounded-md transition-all ${!isPreview ? 'bg-zinc-800 text-zinc-100 shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+              >
+                Write
+              </button>
+              <button 
+                onClick={() => setIsPreview(true)}
+                className={`px-2 md:px-3 py-1 text-[10px] md:text-xs font-medium rounded-md transition-all ${isPreview ? 'bg-zinc-800 text-zinc-100 shadow-sm' : 'text-zinc-500 hover:text-zinc-300'}`}
+              >
+                Preview
+              </button>
+            </div>
           </div>
-          <Button 
-            onClick={handleSave} 
-            disabled={isSaving || (content === entry.content && !isUploading)}
-            className="h-9 px-4"
-          >
-            {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-            Save
-          </Button>
-          <Button 
-            variant="danger" 
-            onClick={() => onDelete(entry.id)}
-            className="h-9 w-9 p-0"
-          >
-            <Trash2 size={16} />
-          </Button>
+
+          <div className="flex items-center gap-2">
+            <Button 
+              onClick={handleSave} 
+              disabled={isSaving || (content === entry.content && !isUploading)}
+              className="h-8 md:h-9 px-3 md:px-4"
+            >
+              {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+              <span className="hidden sm:inline ml-2 text-xs">Save</span>
+            </Button>
+            <Button 
+              variant="danger" 
+              onClick={() => onDelete(entry.id)}
+              className="h-8 w-8 md:h-9 md:w-9 p-0"
+            >
+              <Trash2 size={14} />
+            </Button>
+          </div>
         </div>
       </header>
 
       <main className="flex-1 overflow-auto flex">
-        <div className="flex-1 flex flex-col p-8 max-w-4xl mx-auto w-full">
+        <div className="flex-1 flex flex-col p-4 md:p-8 max-w-4xl mx-auto w-full">
           {!isPreview && <TemplatePicker onSelect={handleTemplateSelect} />}
           
           {entry.imageUrl && (
@@ -206,7 +212,7 @@ export const Editor = ({ entry, onSave, onDelete, isSaving }: EditorProps) => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="What did you build today? Any bugs that kept you up? What's the plan for tomorrow?"
-              className="flex-1 bg-transparent text-zinc-200 placeholder:text-zinc-700 resize-none focus:outline-none font-mono text-lg leading-relaxed"
+              className="flex-1 bg-transparent text-zinc-200 placeholder:text-zinc-700 resize-none focus:outline-none font-mono text-base md:text-lg leading-relaxed"
             />
           )}
         </div>

@@ -1,3 +1,15 @@
+export interface UserProfile {
+  uid: string;
+  email: string;
+  displayName: string;
+  gender?: string;
+  age?: number;
+  devNickname?: string;
+  photoURL?: string;
+  onboardingComplete: boolean;
+  createdAt: number;
+}
+
 export interface JournalEntry {
   id: string;
   userId: string;

@@ -267,9 +267,9 @@ export const Gallery = () => {
   }
 
   return (
-    <div className="flex-1 h-screen flex flex-col bg-zinc-950 overflow-hidden">
-      <header className="h-16 border-b border-zinc-800 px-8 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-4">
+    <div className="flex-1 h-full flex flex-col bg-zinc-950 overflow-hidden">
+      <header className="min-h-16 border-b border-zinc-800 px-4 md:px-8 flex flex-col md:flex-row items-center justify-between py-4 md:py-0 gap-4 shrink-0">
+        <div className="flex items-center gap-4 w-full md:w-auto">
           {currentFolder && (
             <button 
               onClick={() => setCurrentFolder(null)}
@@ -278,87 +278,83 @@ export const Gallery = () => {
               <ChevronLeft size={20} />
             </button>
           )}
-          <h2 className="text-lg font-semibold text-zinc-100">
+          <h2 className="text-base md:text-lg font-semibold text-zinc-100 truncate">
             {currentFolder ? currentFolder.name : 'Gallery'}
           </h2>
         </div>
 
-        <div className="flex items-center gap-3 flex-1 max-w-md mx-4">
+        <div className="flex items-center gap-3 w-full md:flex-1 md:max-w-md md:mx-4">
           <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={16} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" size={14} />
             <input 
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={currentFolder ? `Search in ${currentFolder.name}...` : "Search all images..."}
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-10 pr-4 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              placeholder={currentFolder ? `Search...` : "Search all images..."}
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-9 pr-4 py-1.5 text-xs md:text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 w-full md:w-auto justify-end overflow-x-auto no-scrollbar pb-1 md:pb-0">
           {currentFolder && (
             <>
               {isSelectionMode ? (
-                <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-xl px-2 py-1">
-                  <span className="text-xs font-medium text-zinc-400 px-2">{selectedIds.length} selected</span>
+                <div className="flex items-center gap-1 bg-zinc-900 border border-zinc-800 rounded-xl px-1 py-1 shrink-0">
+                  <span className="text-[10px] font-medium text-zinc-400 px-1">{selectedIds.length}</span>
                   <Button 
                     variant="ghost" 
                     onClick={handleCopy}
                     disabled={selectedIds.length === 0}
-                    className="p-2 h-auto"
-                    title="Copy"
+                    className="p-1.5 h-auto"
                   >
-                    <Copy size={16} />
+                    <Copy size={14} />
                   </Button>
                   <Button 
                     variant="ghost" 
                     onClick={handleCut}
                     disabled={selectedIds.length === 0}
-                    className="p-2 h-auto"
-                    title="Cut"
+                    className="p-1.5 h-auto"
                   >
-                    <Scissors size={16} />
+                    <Scissors size={14} />
                   </Button>
                   <Button 
                     variant="ghost" 
                     onClick={() => setIsBulkDeleting(true)}
                     disabled={selectedIds.length === 0}
-                    className="p-2 h-auto text-red-400 hover:text-red-300"
-                    title="Delete"
+                    className="p-1.5 h-auto text-red-400"
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={14} />
                   </Button>
-                  <div className="w-px h-4 bg-zinc-800 mx-1" />
                   <Button 
                     variant="ghost" 
                     onClick={() => {
                       setIsSelectionMode(false);
                       setSelectedIds([]);
                     }}
-                    className="p-2 h-auto"
+                    className="p-1.5 h-auto"
                   >
-                    <X size={16} />
+                    <X size={14} />
                   </Button>
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   {clipboard && (
                     <Button 
                       onClick={handlePaste} 
                       variant="ghost" 
-                      className="gap-2 text-blue-400 hover:text-blue-300 bg-blue-500/10 border border-blue-500/20"
+                      className="h-8 px-2 text-[10px] text-blue-400 bg-blue-500/10 border border-blue-500/20"
                     >
-                      <ClipboardPaste size={18} />
+                      <ClipboardPaste size={14} />
                       Paste ({clipboard.ids.length})
                     </Button>
                   )}
                   <Button 
                     variant="ghost" 
                     onClick={() => setIsSelectionMode(true)}
-                    className="gap-2"
+                    className="h-8 px-2 text-[10px]"
                   >
-                    <CheckSquare size={18} />
+                    <CheckSquare size={14} />
                     Select
                   </Button>
                 </div>
@@ -366,8 +362,8 @@ export const Gallery = () => {
             </>
           )}
           {!currentFolder ? (
-            <Button onClick={() => setShowNewFolderModal(true)} variant="ghost" className="gap-2">
-              <FolderPlus size={18} />
+            <Button onClick={() => setShowNewFolderModal(true)} variant="ghost" className="h-8 px-2 text-[10px] shrink-0">
+              <FolderPlus size={14} />
               New Folder
             </Button>
           ) : (
@@ -383,17 +379,17 @@ export const Gallery = () => {
               <Button 
                 onClick={() => fileInputRef.current?.click()} 
                 disabled={isUploading}
-                className="gap-2"
+                className="h-8 px-2 text-[10px] shrink-0"
               >
                 {isUploading ? (
                   <>
-                    <Loader2 size={18} className="animate-spin" />
-                    Uploading {uploadProgress.current}/{uploadProgress.total}...
+                    <Loader2 size={14} className="animate-spin" />
+                    {uploadProgress.current}/{uploadProgress.total}
                   </>
                 ) : (
                   <>
-                    <Upload size={18} />
-                    Upload Images
+                    <Upload size={14} />
+                    Upload
                   </>
                 )}
               </Button>
@@ -402,7 +398,7 @@ export const Gallery = () => {
         </div>
       </header>
 
-      <main className="flex-1 overflow-auto p-8">
+      <main className="flex-1 overflow-auto p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           {error ? (
             <div className="flex flex-col items-center justify-center py-20 text-zinc-500">
